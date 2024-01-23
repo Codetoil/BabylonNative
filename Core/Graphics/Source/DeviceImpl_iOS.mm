@@ -11,9 +11,4 @@ namespace Babylon::Graphics
     void DeviceImpl::ConfigureBgfxRenderType(bgfx::PlatformData& /*pd*/, bgfx::RendererType::Enum& /*renderType*/)
     {
     }
-
-    float DeviceImpl::GetDevicePixelRatio(WindowT window)
-    {
-        return window.contentScaleFactor;
-    }
 }

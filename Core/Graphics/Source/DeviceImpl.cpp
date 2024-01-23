@@ -55,7 +55,7 @@ namespace Babylon::Graphics
         m_state.Bgfx.Dirty = true;
         ConfigureBgfxPlatformData(m_state.Bgfx.InitState.platformData, window);
         ConfigureBgfxRenderType(m_state.Bgfx.InitState.platformData, m_state.Bgfx.InitState.type);
-        m_state.Resolution.DevicePixelRatio = GetDevicePixelRatio(window);
+        m_state.Resolution.DevicePixelRatio = GetDevicePixelRatio();
     }
 
     void DeviceImpl::UpdateSize(size_t width, size_t height)

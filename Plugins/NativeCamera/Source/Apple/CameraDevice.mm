@@ -22,8 +22,11 @@
 
 @interface CameraTextureDelegate : NSObject <AVCaptureVideoDataOutputSampleBufferDelegate>
 {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
     @public AVCaptureVideoOrientation VideoOrientation;
-
+#pragma GCC diagnostic pop
+    
     CVMetalTextureCacheRef textureCache;
     CVMetalTextureRef cameraTextureY;
     CVMetalTextureRef cameraTextureCbCr;
@@ -536,10 +539,13 @@ namespace Babylon::Plugins
 
             // To match the web implementation if the sensor is rotated into a portrait orientation then the width and height
             // of the video should be swapped
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
             return implObj->m_impl->cameraTextureDelegate->VideoOrientation == AVCaptureVideoOrientationLandscapeLeft ||
                 implObj->m_impl->cameraTextureDelegate->VideoOrientation == AVCaptureVideoOrientationLandscapeRight ?
                 CameraDimensions{implObj->m_impl->cameraDimensions.width, implObj->m_impl->cameraDimensions.height} :
                 CameraDimensions{implObj->m_impl->cameraDimensions.width, implObj->m_impl->cameraDimensions.height};
+#pragma GCC diagnostic pop
         });
     }
 
@@ -559,13 +565,19 @@ namespace Babylon::Plugins
 
                 switch (m_impl->cameraTextureDelegate->VideoOrientation)
                 {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
                     case AVCaptureVideoOrientationLandscapeRight:
                     case AVCaptureVideoOrientationLandscapeLeft:
+#pragma GCC diagnostic pop
                         width = [textureY width];
                         height = [textureY height];
                         break;
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
                     case AVCaptureVideoOrientationPortrait:
                     case AVCaptureVideoOrientationPortraitUpsideDown:
+#pragma GCC diagnostic pop
                         // In portrait orientation the camera sensor is rotated 90 degrees so the width and height should be swapped
                         width = [textureY height];
                         height = [textureY width];
@@ -625,7 +637,10 @@ namespace Babylon::Plugins
                     // Set the vertex & UV data based on current orientation
                     switch (m_impl->cameraTextureDelegate->VideoOrientation)
                     {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
                         case AVCaptureVideoOrientationLandscapeLeft:
+#pragma GCC diagnostic pop
                             if (m_impl->avDevice.position == AVCaptureDevicePositionFront)
                             {
                                 // The front camera sensor is oriented 180 out of sync from the rear sensor on iOS devices. Swap landscape orientations.
@@ -636,13 +651,22 @@ namespace Babylon::Plugins
                                 [renderEncoder setVertexBytes:vertices_landscape_left length:sizeof(vertices_landscape_left) atIndex:0];
                             }
                             break;
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
                         case AVCaptureVideoOrientationPortrait:
+#pragma GCC diagnostic pop
                             [renderEncoder setVertexBytes:vertices_portrait length:sizeof(vertices_portrait) atIndex:0];
                             break;
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
                         case AVCaptureVideoOrientationPortraitUpsideDown:
+#pragma GCC diagnostic pop
                             [renderEncoder setVertexBytes:vertices_portrait_upsideddown length:sizeof(vertices_portrait_upsideddown) atIndex:0];
                             break;
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
                         case AVCaptureVideoOrientationLandscapeRight:
+#pragma GCC diagnostic pop
                             if (m_impl->avDevice.position == AVCaptureDevicePositionFront)
                             {
                                 // The front camera sensor is oriented 180 out of sync from the rear sensor on iOS devices. Swap landscape orientations.
@@ -682,10 +706,13 @@ namespace Babylon::Plugins
 
         // To match the web implementation if the sensor is rotated into a portrait orientation then the width and height
         // of the video should be swapped
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
         return m_impl->cameraTextureDelegate->VideoOrientation == AVCaptureVideoOrientationLandscapeLeft ||
             m_impl->cameraTextureDelegate->VideoOrientation == AVCaptureVideoOrientationLandscapeRight ?
             CameraDimensions{m_impl->cameraDimensions.width, m_impl->cameraDimensions.height} :
             CameraDimensions{m_impl->cameraDimensions.width, m_impl->cameraDimensions.height};
+#pragma GCC diagnostic pop
     }
 
     CameraDevice::TakePhotoTask CameraDevice::TakePhotoAsync(PhotoSettings photoSettings)
@@ -809,8 +836,11 @@ namespace Babylon::Plugins
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(OrientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
     [self updateOrientation];
 #else
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
     // Orientation not supported on non-iOS devices. LandscapeLeft assumes the video is already in the correct orientation.
     self->VideoOrientation = AVCaptureVideoOrientationLandscapeLeft;
+#pragma GCC diagnostic pop
 #endif
 
     return self;
