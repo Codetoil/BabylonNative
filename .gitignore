@@ -1,4 +1,10 @@
 /build
 .DS_Store
 .vscode
+.idea
+cmake-build-debug-x64
+cmake-build-debug-arm64
+cmake-build-debug-uwp-arm64
+cmake-build-debug-uwp-x64
+cmake-build-debug-wsl
 
